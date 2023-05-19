@@ -1,0 +1,7 @@
+NUM_NODES=3
+MAX_NUM_NODES=5
+NODE_PREFIX=testdocker
+STORAGE_POOL=default
+IMAGE=ubuntu:22.04
+#VM=--vm
+VM=
