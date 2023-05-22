@@ -4,4 +4,6 @@ set -eux
 source config-default.env.sh
 source config.env.sh
 
-lxc exec ${NODE_PREFIX}1 -- bash
+ID=${1:-1}
+
+lxc exec ${NODE_PREFIX}${ID} -- bash

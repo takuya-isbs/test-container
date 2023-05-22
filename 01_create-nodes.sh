@@ -50,10 +50,13 @@ fi
 
 for i in `seq $NUM_NODES`; do
     NODE_NAME=${NODE_PREFIX}${i}
-    lxc launch ${IMAGE} ${NODE_NAME} ${VM} -c limits.cpu=2 -c limits.memory=2GiB -c security.nesting=true
-
     SRC_DIR=$(realpath .)
+    lxc launch ${IMAGE} ${NODE_NAME} ${LAUNCH_OPT}
+    # slow
+    wait_for_wake ${NODE_NAME}
+    lxc stop ${NODE_NAME}
     lxc config device add ${NODE_NAME} SRC disk source=${SRC_DIR} path=/SRC
+    lxc start ${NODE_NAME}
 done
 
 for i in `seq $NUM_NODES`; do
