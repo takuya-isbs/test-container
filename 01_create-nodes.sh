@@ -1,8 +1,7 @@
 #!/bin/bash
 set -eux
-
-source config-default.env.sh
-source config.env.sh
+cd $(dirname $0)
+source ./lib.sh
 
 # usage:
 # delete and create: ./01_create-nodes.sh
@@ -50,9 +49,12 @@ fi
 
 for i in `seq $NUM_NODES`; do
     NODE_NAME=${NODE_PREFIX}${i}
-    SRC_DIR=$(realpath .)
     lxc launch ${IMAGE} ${NODE_NAME} ${LAUNCH_OPT}
-    # slow
+done
+
+for i in `seq $NUM_NODES`; do
+    NODE_NAME=${NODE_PREFIX}${i}
+    SRC_DIR=$(realpath .)
     wait_for_wake ${NODE_NAME}
     lxc stop ${NODE_NAME}
     lxc config device add ${NODE_NAME} SRC disk source=${SRC_DIR} path=/SRC

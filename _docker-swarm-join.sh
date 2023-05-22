@@ -1,5 +1,7 @@
 #!/bin/bash
 set -eux
+cd $(dirname $0)
+source ./lib.sh
 
 MANAGER_ADDR="$1"
 TOKEN="$2"

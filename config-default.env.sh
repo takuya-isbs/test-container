@@ -4,6 +4,9 @@ NODE_PREFIX=testdocker
 STORAGE_POOL=default
 IMAGE=ubuntu:22.04
 
+HTTP_PROXY=
+HTTPS_PROXY=
+
 USE_VM=true
 
 COMMON_OPT="-c limits.cpu=2 -c limits.memory=2GiB"
