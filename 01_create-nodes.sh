@@ -47,28 +47,40 @@ if [ "$DELETE" = "DELETE" ]; then
     exit 0
 fi
 
-for i in `seq $NUM_NODES`; do
+NODE_1=${NODE_PREFIX}1
+NODE_NAME=$NODE_1
+
+SRC_DIR=$(realpath .)
+
+lxc launch ${IMAGE} ${NODE_NAME} ${LAUNCH_OPT}
+wait_for_wake ${NODE_NAME}
+lxc stop ${NODE_NAME}
+lxc config device add ${NODE_NAME} SRC disk source=${SRC_DIR} path=/SRC
+lxc start ${NODE_NAME}
+wait_for_wake ${NODE_NAME}
+lxc exec ${NODE_NAME} -- bash /SRC/_install-docker.sh
+lxc stop ${NODE_NAME}
+
+for i in `seq 2 $NUM_NODES`; do
     NODE_NAME=${NODE_PREFIX}${i}
-    lxc launch ${IMAGE} ${NODE_NAME} ${LAUNCH_OPT}
+    lxc cp ${NODE_1} ${NODE_NAME}
+    lxc start ${NODE_NAME}
+done
+
+for i in `seq 2 $NUM_NODES`; do
+    NODE_NAME=${NODE_PREFIX}${i}
+    wait_for_wake ${NODE_NAME}
+    lxc exec ${NODE_NAME} -- bash /SRC/_reset-machine-id.sh
+    lxc stop ${NODE_NAME}
 done
 
 for i in `seq $NUM_NODES`; do
     NODE_NAME=${NODE_PREFIX}${i}
-    SRC_DIR=$(realpath .)
-    wait_for_wake ${NODE_NAME}
-    lxc stop ${NODE_NAME}
-    lxc config device add ${NODE_NAME} SRC disk source=${SRC_DIR} path=/SRC
     lxc start ${NODE_NAME}
 done
 
 for i in `seq $NUM_NODES`; do
     NODE_NAME=${NODE_PREFIX}${i}
     wait_for_wake ${NODE_NAME}
-    lxc exec ${NODE_NAME} -- bash /SRC/_install-docker.sh &
-done
-wait
-
-for i in `seq $NUM_NODES`; do
-    NODE_NAME=${NODE_PREFIX}${i}
     lxc exec ${NODE_NAME} -- docker version
 done

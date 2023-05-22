@@ -1,9 +1,13 @@
 #!/bin/bash
 set -eux
-
-source config-default.env.sh
-source config.env.sh
+cd $(dirname $0)
+source ./lib.sh
 
 ID=${1:-1}
+shift || true
 
-lxc exec ${NODE_PREFIX}${ID} -- bash
+if [ $# -gt 0 ]; then
+    lxc exec ${NODE_PREFIX}${ID} -- "$@"
+else
+    lxc exec ${NODE_PREFIX}${ID} -- bash
+fi
