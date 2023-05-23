@@ -52,7 +52,7 @@ NODE_NAME=$NODE_1
 
 SRC_DIR=$(realpath .)
 
-lxc launch ${IMAGE} ${NODE_NAME} ${LAUNCH_OPT}
+lxc launch -p ${LXD_PROFILE} ${IMAGE} ${NODE_NAME} ${LAUNCH_OPT}
 wait_for_wake ${NODE_NAME}
 lxc stop ${NODE_NAME}
 lxc config device add ${NODE_NAME} SRC disk source=${SRC_DIR} path=/SRC

@@ -1,6 +1,8 @@
 source config-default.env.sh
 source config.env.sh
 
+NODE_1=${NODE_PREFIX}1
+
 get_ipv4() {
     local NAME="$1"
 

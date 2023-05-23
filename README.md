@@ -1,5 +1,33 @@
 # test-docker-swarm
 
+create LXD storage and profile
+
+```bash
+### example
+$ lxc storage create btrfs1 btrfs source=/mnt/raid1/lxd-btrfs1
+$ lxc profile create btrfs1
+$ lxc profile edit btrfs1
+config: {}
+description: use btrfs1
+devices:
+  eth0:
+    name: eth0
+    network: lxdbr0
+    type: nic
+  root:
+    path: /
+    pool: btrfs1
+    size: 30GB
+    type: disk
+name: btrfs1
+used_by: []
+
+$ vi config.env.sh
+LXD_PROFILE=btrfs1
+```
+
+setup
+
 ```bash
 ./01_create-nodes.sh
 ./02_init-swarm.sh

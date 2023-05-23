@@ -17,5 +17,7 @@ echo \
     tee /etc/apt/sources.list.d/docker.list > /dev/null
 apt-get update
 apt-get -y install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
-
 #docker run hello-world
+
+# for microk8s
+#snap install microk8s --classic --channel=${MICROK8S_VERSION}

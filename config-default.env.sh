@@ -1,15 +1,17 @@
 NUM_NODES=3
 MAX_NUM_NODES=5
 NODE_PREFIX=testdocker
-STORAGE_POOL=default
+LXD_PROFILE=default
 IMAGE=ubuntu:22.04
+
+MICROK8S_VERSION=1.26/stable
 
 HTTP_PROXY=
 HTTPS_PROXY=
 
 USE_VM=true
 
-COMMON_OPT="-c limits.cpu=2 -c limits.memory=2GiB"
+COMMON_OPT="-c limits.cpu=4 -c limits.memory=2GiB"
 if $USE_VM; then
     LAUNCH_OPT="--vm $COMMON_OPT"
 else
