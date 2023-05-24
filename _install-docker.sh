@@ -46,6 +46,6 @@ EOF
 network: {config: disabled}
 EOF
 
-    sed -e 's;#net.ipv4.ip_forward=1;net.ipv4.ip_forward=1;' /etc/sysctl.conf
+    sed -i -e 's;#net.ipv4.ip_forward=1;net.ipv4.ip_forward=1;' /etc/sysctl.conf
     ### reboot required
 fi
