@@ -13,7 +13,7 @@ HTTPS_PROXY=
 
 USE_VM=true
 
-COMMON_OPT="-c limits.cpu=4 -c limits.memory=2GiB"
+COMMON_OPT="-c limits.cpu=6 -c limits.memory=2500MiB"
 if $USE_VM; then
     LAUNCH_OPT="--vm $COMMON_OPT"
 else
