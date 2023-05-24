@@ -3,8 +3,18 @@ set -eux
 cd $(dirname $0)
 source ./lib.sh
 
-lxc exec ${NODE_1} -- kubectl get svc -o wide
-lxc exec ${NODE_1} -- kubectl get pods -o wide
+KUBECTL="lxc exec ${NODE_1} -- kubectl"
+
+# wait for pods running
+PODS_NUM=0
+while [ $PODS_NUM -lt 2 ]; do
+    sleep 1
+    PODS_NUM=`$KUBECTL get pods | grep "Running" | wc -l`
+done
+
+$KUBECTL get all --all-namespaces -o wide
+$KUBECTL get svc -o wide
+$KUBECTL get pods -o wide
 
 for i in `seq $NUM_NODES`; do
     NODE_NAME=${NODE_PREFIX}${i}
