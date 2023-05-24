@@ -47,7 +47,6 @@ if [ "$DELETE" = "DELETE" ]; then
     exit 0
 fi
 
-NODE_1=${NODE_PREFIX}1
 NODE_NAME=$NODE_1
 
 SRC_DIR=$(realpath .)

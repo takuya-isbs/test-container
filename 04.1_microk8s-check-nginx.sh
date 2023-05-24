@@ -3,8 +3,6 @@ set -eux
 cd $(dirname $0)
 source ./lib.sh
 
-NODE_1=${NODE_PREFIX}1
-
 #lxc exec ${NODE_1} -- microk8s.kubectl get svc -o wide
 lxc exec ${NODE_1} -- microk8s.kubectl get pods -o wide
 

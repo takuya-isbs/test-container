@@ -1,6 +1,14 @@
 # test-docker-swarm
 
-create LXD storage and profile
+test various containers environment on LXD instance
+
+## setup
+
+### LXD init for test nodes
+
+TODO
+
+### create LXD storage and profile
 
 ```bash
 ### example
@@ -26,11 +34,16 @@ $ vi config.env.sh
 LXD_PROFILE=btrfs1
 ```
 
-setup
+### create nodes
 
 ```bash
 ./01_create-nodes.sh
-./02_init-swarm.sh
+```
+
+## use swarm
+
+```bash
+./02_swarm-init.sh
 ./SHELL.sh 1
 cd /SRC
 ```
@@ -44,7 +57,7 @@ root@testdocker1:/SRC# docker service ls
 ID             NAME       MODE         REPLICAS   IMAGE          PORTS
 3wo9kk2mksgo   test_web   replicated   0/2        nginx:latest   *:50080->80/tcp
 
-???
+#### routing mesh not working ???
 
 root@testdocker1:/SRC# docker stack rm test
 Removing service test_web
@@ -52,13 +65,24 @@ Removing network test_default
 
 ```
 
-use k3s
+## use k3s
 
 ```bash
-./03_setup-k3s.sh
+./03_k3s-setup.sh
 ### waiting for pods to be ready
 ./03.1_k3s-check-nginx.sh
 ./03.2_k3s-uninstall.sh
 ```
 
+## use microk8s
+
+TODO
+
+## use minikube
+
+TODO
+
+## use LXD container
+
+TODO
 UNDER CONSTRUCTION

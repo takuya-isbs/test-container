@@ -3,7 +3,6 @@ set -eux
 cd $(dirname $0)
 source ./lib.sh
 
-NODE_1=${NODE_PREFIX}1
 NODE_1_ADDR=`get_ipv4 ${NODE_1}`
 
 TOKEN=`lxc exec ${NODE_1} -- bash /SRC/_docker-swarm-init.sh $NODE_1_ADDR`

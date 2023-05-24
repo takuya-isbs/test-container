@@ -3,7 +3,6 @@ set -eux
 cd $(dirname $0)
 source ./lib.sh
 
-NODE_1=${NODE_PREFIX}1
 NODE_1_ADDR=`get_ipv4 ${NODE_1}`
 
 for i in `seq 1 $NUM_NODES`; do
