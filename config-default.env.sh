@@ -2,7 +2,9 @@ NUM_NODES=3
 MAX_NUM_NODES=5
 NODE_PREFIX=testdocker
 LXD_PROFILE=default
+
 IMAGE=ubuntu:22.04
+USERNAME=ubuntu
 
 MICROK8S_VERSION=1.26/stable
 

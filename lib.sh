@@ -23,3 +23,7 @@ set_proxy() {
         export HTTPS_PROXY https_proxy
     fi
 }
+
+exec_user() {
+    sudo -i -u $USERNAME "$@"
+}
