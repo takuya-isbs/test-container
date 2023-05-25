@@ -43,7 +43,7 @@ if [ "$DELETE" = "DELETE" ]; then
     exit 0
 fi
 
-NODE_NAME=$NODE_1
+NODE_BASE=${NODE_PREFIX}-base
 SRC_DIR=$(realpath .)
 
 lxc profile delete $LXD_PROFILE || true
@@ -66,34 +66,35 @@ lxc network attach-profile $LXD_NET1_NAME $LXD_PROFILE eth0
 lxc profile device add $LXD_PROFILE root disk path=/ pool=${LXD_POOL} size=30GB
 lxc profile show $LXD_PROFILE
 
-lxc launch -p ${LXD_PROFILE} ${IMAGE} ${NODE_NAME} ${LAUNCH_OPT}
-wait_for_wake ${NODE_NAME}
-lxc stop ${NODE_NAME}
-lxc config device add ${NODE_NAME} SRC disk source=${SRC_DIR} path=/SRC
-lxc start ${NODE_NAME}
-wait_for_wake ${NODE_NAME}
-lxc exec ${NODE_NAME} -- bash /SRC/_install-docker.sh
-lxc stop ${NODE_NAME}
+lxc launch -p ${LXD_PROFILE} ${IMAGE} ${NODE_BASE} ${LAUNCH_OPT}
+wait_for_wake ${NODE_BASE}
+lxc stop ${NODE_BASE}
+lxc config device add ${NODE_BASE} SRC disk source=${SRC_DIR} path=/SRC
+lxc start ${NODE_BASE}
+wait_for_wake ${NODE_BASE}
+lxc exec ${NODE_BASE} -- bash /SRC/_install-docker.sh
+lxc stop ${NODE_BASE}
 
-for i in `seq 2 $NUM_NODES`; do
+for i in `seq 1 $NUM_NODES`; do
     NODE_NAME=${NODE_PREFIX}${i}
-    lxc cp ${NODE_1} ${NODE_NAME}
+    lxc cp ${NODE_BASE} ${NODE_NAME}
     lxc start ${NODE_NAME}
 done
+lxc delete ${NODE_BASE}
 
-for i in `seq 2 $NUM_NODES`; do
+for i in `seq 1 $NUM_NODES`; do
     NODE_NAME=${NODE_PREFIX}${i}
     wait_for_wake ${NODE_NAME}
-    lxc exec ${NODE_NAME} -- bash /SRC/_reset-machine-id.sh
-    lxc stop ${NODE_NAME}
+    lxc exec ${NODE_NAME} -- bash /SRC/_reset-machine-id.sh &
 done
+wait
 
-for i in `seq $NUM_NODES`; do
+for i in `seq 1 $NUM_NODES`; do
     NODE_NAME=${NODE_PREFIX}${i}
-    lxc start ${NODE_NAME}
+    lxc restart ${NODE_NAME}
 done
 
-for i in `seq $NUM_NODES`; do
+for i in `seq 1 $NUM_NODES`; do
     NODE_NAME=${NODE_PREFIX}${i}
     wait_for_wake ${NODE_NAME}
     lxc exec ${NODE_NAME} -- docker version
