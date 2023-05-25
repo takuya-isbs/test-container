@@ -15,6 +15,12 @@ get_ipv4() {
     lxc list -f json | jq -r '.[] | select(.name == "'"$NAME"'") | .state.network.'"$IF"'.addresses[] | select(.family == "inet") | .address'
 }
 
+# for guest
+exec_user() {
+    sudo -i -u $USERNAME "$@"
+}
+
+# common
 set_proxy() {
     if [ -n "$HTTP_PROXY" ]; then
         http_proxy=$HTTP_PROXY
@@ -24,9 +30,4 @@ set_proxy() {
         https_proxy=$HTTPS_PROXY
         export HTTPS_PROXY https_proxy
     fi
-}
-
-# for guest
-exec_user() {
-    sudo -i -u $USERNAME "$@"
 }

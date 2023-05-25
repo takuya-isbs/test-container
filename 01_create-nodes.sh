@@ -48,8 +48,27 @@ if [ "$DELETE" = "DELETE" ]; then
 fi
 
 NODE_NAME=$NODE_1
-
 SRC_DIR=$(realpath .)
+
+lxc profile delete $LXD_PROFILE || true
+### use existing storage pool
+#lxc storage delete $LXD_POOL || true
+lxc network delete $LXD_NET1_NAME || true
+
+DHCP_START=${LXD_NET1_PREFIX}${LXD_NET1_DHCP_RANGE%-*}
+DHCP_END=${LXD_NET1_PREFIX}${LXD_NET1_DHCP_RANGE#*-}
+lxc network create $LXD_NET1_NAME \
+    ipv4.address=${LXD_NET1_PREFIX}1/24 \
+    ipv4.dhcp.ranges=${DHCP_START}-${DHCP_END} \
+    ipv4.nat=true || true
+
+lxc profile create $LXD_PROFILE
+lxc network attach-profile $LXD_NET1_NAME $LXD_PROFILE eth0
+
+### use existing storage pool
+#lxc storage create $LXD_POOL dir source=/var/snap/lxd/common/lxd/storage-pools/${LXD_POOL}
+lxc profile device add $LXD_PROFILE root disk path=/ pool=${LXD_POOL} size=30GB
+lxc profile show $LXD_PROFILE
 
 lxc launch -p ${LXD_PROFILE} ${IMAGE} ${NODE_NAME} ${LAUNCH_OPT}
 wait_for_wake ${NODE_NAME}
