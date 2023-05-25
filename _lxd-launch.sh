@@ -10,8 +10,8 @@ unset LXD_INSTANCE
 ID_NUM=${1}
 NODE_NAME=${NODE_PREFIX}${1}
 
-LXD_PROFILE=bridge1
-#LXD_POOL=disk1
+LXD_PROFILE=testbridge1
+#LXD_POOL=testdisk1
 LXD_INSTANCE=nginx-lb-${ID_NUM}
 
 if [ $NODE_NAME = $NODE_1 ]; then

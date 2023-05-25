@@ -22,7 +22,7 @@ lxc profile delete $LXD_PROFILE || IGNORE
 
 lxc profile create $LXD_PROFILE
 lxc network attach-profile br0 $LXD_PROFILE eth0
-lxc storage create $LXD_POOL dir source=/var/snap/lxd/common/lxd/storage-pools/${LXD_POOL}
+lxc storage create $LXD_POOL dir source=/var/snap/lxd/common/lxd/storage-pools/${LXD_POOL} || IGNORE
 lxc profile device add $LXD_PROFILE root disk path=/ pool=${LXD_POOL} size=30GB
 lxc profile show $LXD_PROFILE
 
