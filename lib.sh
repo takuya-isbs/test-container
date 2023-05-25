@@ -2,18 +2,10 @@ source config-default.env.sh
 source config.env.sh
 
 NODE_1=${NODE_PREFIX}1
+NODE_2=${NODE_PREFIX}2
+NODE_3=${NODE_PREFIX}3
 
 # for host
-get_ipv4() {
-    local NAME="$1"
-
-    local IF=eth0
-    if $USE_VM; then
-        #IF=enp5s0
-        IF=br0
-    fi
-    lxc list -f json | jq -r '.[] | select(.name == "'"$NAME"'") | .state.network.'"$IF"'.addresses[] | select(.family == "inet") | .address'
-}
 
 # for guest
 exec_user() {
@@ -21,6 +13,10 @@ exec_user() {
 }
 
 # common
+IGNORE() {
+    true
+}
+
 set_proxy() {
     if [ -n "$HTTP_PROXY" ]; then
         http_proxy=$HTTP_PROXY
@@ -30,4 +26,18 @@ set_proxy() {
         https_proxy=$HTTPS_PROXY
         export HTTPS_PROXY https_proxy
     fi
+}
+
+get_ipv4() {
+    local NAME="$1"
+    local IF="${2:-}"
+
+    if [ -z "$IF" ]; then
+        IF=eth0
+        if $USE_VM; then
+            #IF=enp5s0
+            IF=br0
+        fi
+    fi
+    lxc list -f json | jq -r '.[] | select(.name == "'"$NAME"'") | .state.network.'"$IF"'.addresses[] | select(.family == "inet") | .address'
 }

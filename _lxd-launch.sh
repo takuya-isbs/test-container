@@ -20,4 +20,9 @@ else
     REMOTE_NAME=$NODE_1
 fi
 lxc launch -p $LXD_PROFILE ${REMOTE_NAME}:${IMAGE_FINGERPRINT} $LXD_INSTANCE
-lxc list
+lxc config device add $LXD_INSTANCE SRC disk source=/SRC path=/SRC
+#lxc list
+
+lxc exec $LXD_INSTANCE -- cloud-init status --wait
+lxc exec $LXD_INSTANCE -- systemctl stop snapd.service snapd.socket
+lxc exec $LXD_INSTANCE -- systemctl disable snapd.service snapd.socket

@@ -9,10 +9,6 @@ source ./lib.sh
 
 DELETE=${1:-}
 
-IGNORE() {
-    true
-}
-
 wait_for_wake() {
     local NODE_NAME=$1
     until lxc exec ${NODE_NAME} -- cloud-init status --wait; do

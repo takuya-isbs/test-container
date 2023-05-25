@@ -8,6 +8,7 @@ LXD_POOL=default   # use an existing storage pool
 LXD_NET1_NAME=testcont1  # auto creation
 LXD_NET1_PREFIX="10.99.88."
 LXD_NET1_DHCP_RANGE="100-250"
+NGINX_VIP_ADDR="${LXD_NET1_PREFIX}50"
 
 LXD_REMOTE_TMP_PASSWORD=68157562-fa93-11ed-8c10-00155dc8aa19
 
