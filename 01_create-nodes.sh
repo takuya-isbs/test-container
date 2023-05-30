@@ -33,6 +33,9 @@ validate() {
 
 validate
 
+NODE_BASE=${NODE_PREFIX}-base
+
+lxc delete -f ${NODE_BASE} || IGNORE
 for i in `seq $MAX_NUM_NODES`; do
     NODE_NAME=${NODE_PREFIX}${i}
     lxc stop ${NODE_NAME} || IGNORE
@@ -43,7 +46,6 @@ if [ "$DELETE" = "DELETE" ]; then
     exit 0
 fi
 
-NODE_BASE=${NODE_PREFIX}-base
 SRC_DIR=$(realpath .)
 
 lxc profile delete $LXD_PROFILE || true
