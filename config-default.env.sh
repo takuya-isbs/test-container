@@ -23,9 +23,5 @@ HTTPS_PROXY=
 
 USE_VM=true
 
-COMMON_OPT="-c limits.cpu=6 -c limits.memory=2500MiB"
-if $USE_VM; then
-    LAUNCH_OPT="--vm $COMMON_OPT"
-else
-    LAUNCH_OPT="-c security.nesting=true $COMMON_OPT"
-fi
+LIMIT_CPU=6
+LIMIT_MEMORY=2500MiB

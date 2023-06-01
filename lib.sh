@@ -1,6 +1,13 @@
 source config-default.env.sh
 source config.env.sh
 
+COMMON_OPT="-c limits.cpu=${LIMIT_CPU} -c limits.memory=${LIMIT_MEMORY}"
+if $USE_VM; then
+    LAUNCH_OPT="--vm $COMMON_OPT"
+else
+    LAUNCH_OPT="-c security.nesting=true $COMMON_OPT"
+fi
+
 NODE_1=${NODE_PREFIX}1
 NODE_2=${NODE_PREFIX}2
 NODE_3=${NODE_PREFIX}3
