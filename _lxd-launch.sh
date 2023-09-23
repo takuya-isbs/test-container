@@ -19,7 +19,7 @@ if [ $NODE_NAME = $NODE_1 ]; then
 else
     REMOTE_NAME=$NODE_1
 fi
-lxc launch -p $LXD_PROFILE ${REMOTE_NAME}:${IMAGE_FINGERPRINT} $LXD_INSTANCE
+lxc launch -p $LXD_PROFILE ${REMOTE_NAME}:${CONT_IMAGE_ALIAS} $LXD_INSTANCE
 lxc config device add $LXD_INSTANCE SRC disk source=/SRC path=/SRC
 #lxc list
 

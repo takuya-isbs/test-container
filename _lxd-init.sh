@@ -9,6 +9,7 @@ unset LXD_INSTANCE
 
 ID_NUM=${1}
 
+apt-get update
 apt-get -y install jq
 snap install lxd
 
@@ -27,4 +28,4 @@ lxc profile device add $LXD_PROFILE root disk path=/ pool=${LXD_POOL} size=30GB
 lxc profile show $LXD_PROFILE
 
 # download
-lxc image copy $IMAGE local:
+lxc image copy --copy-aliases $CONT_IMAGE local:

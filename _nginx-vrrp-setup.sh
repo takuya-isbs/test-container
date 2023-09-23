@@ -25,6 +25,7 @@ KEEPALIVED_ENV=/etc/default/keepalived
 INTERFACE=eth0
 KEEPALIVED_PASSWORD=1e1633ca-fad4-11ed-82e7-00155dc8aa19
 
+apt-get update
 apt-get -y install nginx keepalived
 
 cat <<EOF > $HTML
