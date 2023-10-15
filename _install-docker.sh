@@ -25,7 +25,7 @@ apt-get -y install docker-ce docker-ce-cli containerd.io docker-buildx-plugin do
 
 if $USE_VM; then
     apt update
-    apt install -y bridge-utils
+    #apt install -y bridge-utils
 
     cat <<EOF > /etc/netplan/99-bridge.yaml
 network:

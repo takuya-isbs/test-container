@@ -5,8 +5,6 @@ source ./lib.sh
 
 NODE_1_ADDR=`get_ipv4 ${NODE_1}`
 
-INSTANCE_PREFIX=nginx-lb-
-
 # create LXD container in LXD VM
 for i in `seq 1 $NUM_NODES`; do
     NODE_NAME=${NODE_PREFIX}${i}
@@ -26,9 +24,8 @@ lxc exec ${NODE_1} -- bash /SRC/_lxd-remote-unset.sh
 
 for i in `seq 1 $NUM_NODES`; do
     NODE_NAME=${NODE_PREFIX}${i}
-    lxc exec ${NODE_NAME} -- bash /SRC/_lxd-launch.sh ${i} &
+    lxc exec ${NODE_NAME} -- bash /SRC/_lxd-launch.sh ${i}
 done
-wait
 
 for i in `seq 1 $NUM_NODES`; do
     NODE_NAME=${NODE_PREFIX}${i}

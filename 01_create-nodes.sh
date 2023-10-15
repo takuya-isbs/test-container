@@ -39,7 +39,7 @@ lxc delete -f ${NODE_BASE} || IGNORE
 for i in `seq $MAX_NUM_NODES`; do
     NODE_NAME=${NODE_PREFIX}${i}
     lxc stop ${NODE_NAME} || IGNORE
-    lxc delete ${NODE_NAME} || IGNORE
+    lxc delete -f ${NODE_NAME} || IGNORE
 done
 
 if [ "$DELETE" = "DELETE" ]; then
